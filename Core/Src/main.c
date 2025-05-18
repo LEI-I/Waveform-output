@@ -52,6 +52,7 @@
 extern uint8_t duty;
 extern uint8_t state;
 uint8_t refresh_state = 0;
+uint8_t page = 0;
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -110,10 +111,11 @@ int main(void)
   /* USER CODE BEGIN WHILE */
   while (1)
   {
+#if 0
       if(state != 4) {
           sprintf((char *)message, "设定值:%d%%", duty);
           OLED_NewFrame();
-          OLED_PrintString(0, 0, (char *)message, &me2, OLED_COLOR_NORMAL);
+          OLED_PrintString(0, 0, (char *)message, &shedingzhi1, OLED_COLOR_NORMAL);
           OLED_DrawRectangle(13, 25, 101, 12, OLED_COLOR_NORMAL);
           OLED_DrawFilledRectangle(13, 26, duty, 11, OLED_COLOR_NORMAL);
           OLED_ShowFrame();
@@ -131,6 +133,7 @@ int main(void)
               HAL_Delay(100);
           }
       }
+#endif
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */

@@ -32,7 +32,9 @@
 
 /* Private define ------------------------------------------------------------*/
 /* USER CODE BEGIN PD */
-
+#define SEQUENCE_LENGTH 4
+#define KEY1_VALUE 1
+#define KEY2_VALUE 2
 /* USER CODE END PD */
 
 /* Private macro -------------------------------------------------------------*/
@@ -42,8 +44,10 @@
 
 /* Private variables ---------------------------------------------------------*/
 /* USER CODE BEGIN PV */
-uint8_t duty = 0;
-uint8_t state = 0;
+const uint8_t modeSequence[SEQUENCE_LENGTH] = {1, 2, 1, 2};
+uint8_t inputSequence[SEQUENCE_LENGTH] = {0};
+uint8_t sequenceIndex = 0;
+uint8_t modeSelectFlag;
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -277,6 +281,38 @@ void I2C1_ER_IRQHandler(void)
 void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 {
     if(htim == (&htim2)) {
+        if(HAL_GPIO_ReadPin(KEY1_GPIO_Port, KEY1_Pin) == GPIO_PIN_RESET) {
+            inputSequence[sequenceIndex] = KEY1_VALUE;
+            sequenceIndex++;
+        }
+        if(HAL_GPIO_ReadPin(KEY2_GPIO_Port, KEY2_Pin) == GPIO_PIN_RESET) {
+            inputSequence[sequenceIndex] = KEY2_VALUE;
+            sequenceIndex++;
+        }
+        if(sequenceIndex >= SEQUENCE_LENGTH) {
+            uint8_t match = 1;
+            for(uint8_t i = 0;i < SEQUENCE_LENGTH;i++) {
+                if(inputSequence[i] != modeSequence[i]) {
+                    match = 0;
+                    break;
+                }
+            }
+            if(match) {
+                modeSelectFlag = 1;
+            }
+            sequenceIndex = 0;
+            for(uint8_t i = 0;i < SEQUENCE_LENGTH;i++) {
+                inputSequence[i] = 0;
+            }
+        }
+    }
+}
+
+
+#if 0
+void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
+{
+    if(htim == (&htim2)) {
         if(HAL_GPIO_ReadPin(KEY1_GPIO_Port, KEY1_Pin) == GPIO_PIN_RESET && duty < 100) {
             duty++;
             if(state == 0) {
@@ -306,4 +342,5 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
                 __HAL_TIM_SetCompare(&htim1, TIM_CHANNEL_1, duty);
     }
 }
+#endif
 /* USER CODE END 1 */
