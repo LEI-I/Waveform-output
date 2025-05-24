@@ -175,6 +175,7 @@ int main(void)
                   OLED_NewFrame();
                   OLED_PrintString(0, 0, "Error!", &font12x12, OLED_COLOR_NORMAL);
                   OLED_ShowFrame();
+                  break;
           }
       }
 #if 0

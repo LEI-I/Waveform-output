@@ -37,7 +37,7 @@
 #define SEQUENCE_LENGTH 4
 #define KEY1_VALUE 1
 #define KEY2_VALUE 2
-#define OUTPUT_TYPE_COUNT 3
+#define OUTPUT_TYPE_COUNT 4
 /* USER CODE END PD */
 
 /* Private macro -------------------------------------------------------------*/
