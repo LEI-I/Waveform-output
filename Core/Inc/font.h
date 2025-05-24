@@ -46,5 +46,6 @@ extern const Image bilibiliImg;
 extern const Image DCImgFont45x45;
 extern const Image sinImg;
 extern const Image sawtoothImg45x45;
+extern const Image dinoImg45x45;
 
 #endif // __FONT_H

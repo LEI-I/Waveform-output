@@ -54,6 +54,9 @@ extern uint8_t modeSelectFlag;
 uint8_t message[20];
 extern uint8_t duty;
 extern OutputType outputType;
+extern uint8_t sinFrequency, sawtoothFrequency;
+FlagStatus dinoFlag = RESET;
+extern FlagStatus dinoStart;
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -123,6 +126,8 @@ int main(void)
                   OLED_DrawImage(40, 21, &sinImg, OLED_COLOR_NORMAL); break;
               case OUTPUT_TYPE_SAWTOOTH:
                   OLED_DrawImage(40, 21, &sawtoothImg45x45, OLED_COLOR_NORMAL); break;
+              case OUTPUT_TYPE_DINO:
+                  OLED_DrawImage(40, 21, &dinoImg45x45, OLED_COLOR_NORMAL); break;
               default:
                   OLED_PrintString(0, 13, "Error!", &font16x16, OLED_COLOR_NORMAL); break;
           }
@@ -140,14 +145,31 @@ int main(void)
                   OLED_ShowFrame();
                   break;
               case OUTPUT_TYPE_SIN:
+                  sprintf((char *)message, "设定值:%dHz", sinFrequency);
                   OLED_NewFrame();
                   OLED_PrintString(0, 0, "当前输出-Sin", &messageDisplayFont12x12, OLED_COLOR_NORMAL);
+                  OLED_DrawRectangle(13, 40, 101, 12, OLED_COLOR_NORMAL);
+                  OLED_DrawFilledRectangle(13, 41, sinFrequency, 11, OLED_COLOR_NORMAL);
                   OLED_ShowFrame();
                   break;
               case OUTPUT_TYPE_SAWTOOTH:
+                  sprintf((char *)message, "设定值:%dHz", sawtoothFrequency);
                   OLED_NewFrame();
                   OLED_PrintString(0, 0, "当前输出-Sawtooth", &messageDisplayFont12x12, OLED_COLOR_NORMAL);
+                  OLED_DrawRectangle(13, 40, 101, 12, OLED_COLOR_NORMAL);
+                  OLED_DrawFilledRectangle(13, 41, sawtoothFrequency, 11, OLED_COLOR_NORMAL);
                   OLED_ShowFrame();
+                  break;
+              case OUTPUT_TYPE_DINO:
+                  if(dinoFlag == RESET) {
+                      introMessage();
+                      dinoFlag = SET;
+                  }
+                  if(dinoStart == SET) {
+                      showLine();
+                      play();
+                      HAL_Delay(100);
+                  }
                   break;
               default:
                   OLED_NewFrame();

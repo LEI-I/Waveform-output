@@ -35,7 +35,8 @@ extern "C" {
 typedef enum {
     OUTPUT_TYPE_DC = 0,
     OUTPUT_TYPE_SIN,
-    OUTPUT_TYPE_SAWTOOTH
+    OUTPUT_TYPE_SAWTOOTH,
+    OUTPUT_TYPE_DINO
 } OutputType;
 /* USER CODE END ET */
 

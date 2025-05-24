@@ -48,9 +48,11 @@
 /* Private variables ---------------------------------------------------------*/
 /* USER CODE BEGIN PV */
 FlagStatus modeSelectFlag = SET;
+FlagStatus dinoStrat = RESET;
+extern FlagStatus dinoFlag;
 OutputType outputType = OUTPUT_TYPE_DC;
-uint16_t duty = 0;
-uint8_t sinFrequency = 1;
+uint16_t dcDuty=0, sawtoothDuty=0;
+uint8_t sinFrequency = 1, sawtoothFrequency = 8;
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -340,12 +342,17 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
             if(HAL_GPIO_ReadPin(KEY1_GPIO_Port, KEY1_Pin) == GPIO_PIN_RESET) {
                 switch (outputType) {
                     case OUTPUT_TYPE_DC:
-                        if(duty > 10) duty -= 10;
-                        __HAL_TIM_SetCompare(&htim1, TIM_CHANNEL_1, duty);
+                        if(dcDuty > 10) dcDuty -= 10;
+                        __HAL_TIM_SetCompare(&htim1, TIM_CHANNEL_1, dcDuty);
                         break;
                     case OUTPUT_TYPE_SIN:
                         if(sinFrequency > 1) sinFrequency--;
                         break;
+                    case OUTPUT_TYPE_SAWTOOTH:
+                        if(sawtoothFrequency > 8) sawtoothFrequency -= 8;
+                        break;
+                    case OUTPUT_TYPE_DINO:
+                        dinoStrat = SET;
                     default:
                         break;
                 }
@@ -353,11 +360,14 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
             if(HAL_GPIO_ReadPin(KEY2_GPIO_Port, KEY2_Pin) == GPIO_PIN_RESET) {
                 switch (outputType) {
                     case OUTPUT_TYPE_DC:
-                        if(duty < 1000) duty += 10;
-                        __HAL_TIM_SetCompare(&htim1, TIM_CHANNEL_1, duty);
+                        if(dcDuty < 1000) dcDuty += 10;
+                        __HAL_TIM_SetCompare(&htim1, TIM_CHANNEL_1, dcDuty);
                         break;
                     case OUTPUT_TYPE_SIN:
                         if(sinFrequency < 100) sinFrequency++;
+                        break;
+                    case OUTPUT_TYPE_SAWTOOTH:
+                        if(sawtoothFrequency < 96) sawtoothFrequency += 8;
                         break;
                     default:
                         break;
@@ -382,6 +392,14 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
             if(sinPWM >= htim1.Instance->ARR)
                 sinPWM = 0;
         }
+        else {
+            if(outputType == OUTPUT_TYPE_SAWTOOTH) {
+                sawtoothDuty += (1 * sawtoothFrequency / 8);
+                htim1.Instance->CCR1 = sawtoothDuty;
+                if(sawtoothDuty > 1000)
+                    sawtoothDuty = 0;
+            }
+        }
     }
 }
 
@@ -390,8 +408,8 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 {
     if(htim == (&htim2)) {
-        if(HAL_GPIO_ReadPin(KEY1_GPIO_Port, KEY1_Pin) == GPIO_PIN_RESET && duty < 100) {
-            duty++;
+        if(HAL_GPIO_ReadPin(KEY1_GPIO_Port, KEY1_Pin) == GPIO_PIN_RESET && dcDuty < 100) {
+            dcDuty++;
             if(state == 0) {
                 state = 1;
             }
@@ -403,8 +421,8 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
                 }
             }
         }
-        if(HAL_GPIO_ReadPin(KEY2_GPIO_Port, KEY2_Pin) == GPIO_PIN_RESET && duty > 0) {
-            duty--;
+        if(HAL_GPIO_ReadPin(KEY2_GPIO_Port, KEY2_Pin) == GPIO_PIN_RESET && dcDuty > 0) {
+            dcDuty--;
             if(state == 1) {
                 state = 2;
             } else {
@@ -416,7 +434,7 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
                 state = 4;
             }
         }
-                __HAL_TIM_SetCompare(&htim1, TIM_CHANNEL_1, duty);
+                __HAL_TIM_SetCompare(&htim1, TIM_CHANNEL_1, dcDuty);
     }
 }
 #endif
