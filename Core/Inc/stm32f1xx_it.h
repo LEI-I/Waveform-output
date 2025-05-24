@@ -32,7 +32,11 @@ extern "C" {
 
 /* Exported types ------------------------------------------------------------*/
 /* USER CODE BEGIN ET */
-
+typedef enum {
+    OUTPUT_TYPE_DC = 0,
+    OUTPUT_TYPE_SIN,
+    OUTPUT_TYPE_SAWTOOTH
+} OutputType;
 /* USER CODE END ET */
 
 /* Exported constants --------------------------------------------------------*/
@@ -57,6 +61,7 @@ void PendSV_Handler(void);
 void SysTick_Handler(void);
 void DMA1_Channel6_IRQHandler(void);
 void DMA1_Channel7_IRQHandler(void);
+void TIM1_UP_IRQHandler(void);
 void TIM2_IRQHandler(void);
 void I2C1_EV_IRQHandler(void);
 void I2C1_ER_IRQHandler(void);

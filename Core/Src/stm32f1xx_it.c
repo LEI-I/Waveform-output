@@ -20,9 +20,11 @@
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
 #include "stm32f1xx_it.h"
-#include "tim.h"
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
+#include "math.h"
+#include "arm_math.h"
+
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -35,6 +37,7 @@
 #define SEQUENCE_LENGTH 4
 #define KEY1_VALUE 1
 #define KEY2_VALUE 2
+#define OUTPUT_TYPE_COUNT 3
 /* USER CODE END PD */
 
 /* Private macro -------------------------------------------------------------*/
@@ -44,15 +47,51 @@
 
 /* Private variables ---------------------------------------------------------*/
 /* USER CODE BEGIN PV */
-const uint8_t modeSequence[SEQUENCE_LENGTH] = {1, 2, 1, 2};
-uint8_t inputSequence[SEQUENCE_LENGTH] = {0};
-uint8_t sequenceIndex = 0;
-uint8_t modeSelectFlag;
+FlagStatus modeSelectFlag = SET;
+OutputType outputType = OUTPUT_TYPE_DC;
+uint16_t duty = 0;
+uint8_t sinFrequency = 1;
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
 /* USER CODE BEGIN PFP */
+void CheckModeSelectSequence(void)
+{
+    static const uint8_t modeSequence[SEQUENCE_LENGTH] = {KEY1_VALUE, KEY2_VALUE, KEY1_VALUE, KEY2_VALUE};
+    static uint8_t inputSequence[SEQUENCE_LENGTH] = {0};
+    static uint8_t sequenceIndex = 0;
+    uint8_t key = 0;
+    
+    if(HAL_GPIO_ReadPin(KEY1_GPIO_Port, KEY1_Pin) == GPIO_PIN_RESET) {
+        key = KEY1_VALUE;
+    } else if(HAL_GPIO_ReadPin(KEY2_GPIO_Port, KEY2_Pin) == GPIO_PIN_RESET) {
+        key = KEY2_VALUE;
+    } else {
+        return; // 没有按键按下,保证没有队列不会空移
+    }
 
+    // 滑动窗口：前移，加入新按键
+    for(uint8_t i = 0; i < SEQUENCE_LENGTH - 1; i++) {
+        inputSequence[i] = inputSequence[i + 1];
+    }
+    inputSequence[SEQUENCE_LENGTH - 1] = key;
+
+    // 判断是否匹配
+    uint8_t match = 1;
+    for(uint8_t i = 0; i < SEQUENCE_LENGTH; i++) {
+        if(inputSequence[i] != modeSequence[i]) {
+            match = 0;
+            break;
+        }
+    }
+    if(match) {
+        modeSelectFlag = 1;
+        // 匹配后可清空输入序列
+        for(uint8_t i = 0; i < SEQUENCE_LENGTH; i++) {
+            inputSequence[i] = 0;
+        }
+    }
+}
 /* USER CODE END PFP */
 
 /* Private user code ---------------------------------------------------------*/
@@ -64,6 +103,7 @@ uint8_t modeSelectFlag;
 extern DMA_HandleTypeDef hdma_i2c1_rx;
 extern DMA_HandleTypeDef hdma_i2c1_tx;
 extern I2C_HandleTypeDef hi2c1;
+extern TIM_HandleTypeDef htim1;
 extern TIM_HandleTypeDef htim2;
 /* USER CODE BEGIN EV */
 
@@ -236,6 +276,20 @@ void DMA1_Channel7_IRQHandler(void)
 }
 
 /**
+  * @brief This function handles TIM1 update interrupt.
+  */
+void TIM1_UP_IRQHandler(void)
+{
+  /* USER CODE BEGIN TIM1_UP_IRQn 0 */
+
+  /* USER CODE END TIM1_UP_IRQn 0 */
+  HAL_TIM_IRQHandler(&htim1);
+  /* USER CODE BEGIN TIM1_UP_IRQn 1 */
+
+  /* USER CODE END TIM1_UP_IRQn 1 */
+}
+
+/**
   * @brief This function handles TIM2 global interrupt.
   */
 void TIM2_IRQHandler(void)
@@ -281,29 +335,52 @@ void I2C1_ER_IRQHandler(void)
 void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 {
     if(htim == (&htim2)) {
-        if(HAL_GPIO_ReadPin(KEY1_GPIO_Port, KEY1_Pin) == GPIO_PIN_RESET) {
-            inputSequence[sequenceIndex] = KEY1_VALUE;
-            sequenceIndex++;
-        }
-        if(HAL_GPIO_ReadPin(KEY2_GPIO_Port, KEY2_Pin) == GPIO_PIN_RESET) {
-            inputSequence[sequenceIndex] = KEY2_VALUE;
-            sequenceIndex++;
-        }
-        if(sequenceIndex >= SEQUENCE_LENGTH) {
-            uint8_t match = 1;
-            for(uint8_t i = 0;i < SEQUENCE_LENGTH;i++) {
-                if(inputSequence[i] != modeSequence[i]) {
-                    match = 0;
-                    break;
+        if(modeSelectFlag == RESET) {
+            CheckModeSelectSequence();
+            if(HAL_GPIO_ReadPin(KEY1_GPIO_Port, KEY1_Pin) == GPIO_PIN_RESET) {
+                switch (outputType) {
+                    case OUTPUT_TYPE_DC:
+                        if(duty > 10) duty -= 10;
+                        __HAL_TIM_SetCompare(&htim1, TIM_CHANNEL_1, duty);
+                        break;
+                    case OUTPUT_TYPE_SIN:
+                        if(sinFrequency > 1) sinFrequency--;
+                        break;
+                    default:
+                        break;
                 }
             }
-            if(match) {
-                modeSelectFlag = 1;
+            if(HAL_GPIO_ReadPin(KEY2_GPIO_Port, KEY2_Pin) == GPIO_PIN_RESET) {
+                switch (outputType) {
+                    case OUTPUT_TYPE_DC:
+                        if(duty < 1000) duty += 10;
+                        __HAL_TIM_SetCompare(&htim1, TIM_CHANNEL_1, duty);
+                        break;
+                    case OUTPUT_TYPE_SIN:
+                        if(sinFrequency < 100) sinFrequency++;
+                        break;
+                    default:
+                        break;
+                }
             }
-            sequenceIndex = 0;
-            for(uint8_t i = 0;i < SEQUENCE_LENGTH;i++) {
-                inputSequence[i] = 0;
+        }
+        else {
+            if(HAL_GPIO_ReadPin(KEY2_GPIO_Port, KEY2_Pin) == GPIO_PIN_RESET) {
+                outputType++;
+                outputType %= OUTPUT_TYPE_COUNT;
             }
+            if(HAL_GPIO_ReadPin(KEY1_GPIO_Port, KEY1_Pin) == GPIO_PIN_RESET) {
+                modeSelectFlag = RESET;
+            }
+        }
+    }
+    if(htim == (&htim1)) {
+        if(outputType == OUTPUT_TYPE_SIN) {
+            static int sinPWM = 0;
+            htim1.Instance->CCR1 = (int)((arm_sin_f32(sinPWM*2.0*3.1415926/(8000.0 / sinFrequency)) + 1.0) * 499);
+            sinPWM++;
+            if(sinPWM >= htim1.Instance->ARR)
+                sinPWM = 0;
         }
     }
 }

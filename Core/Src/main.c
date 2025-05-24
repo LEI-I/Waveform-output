@@ -29,6 +29,7 @@
 #include "oled.h"
 #include "retarget.h"
 #include "Dino.h"
+#include "stm32f1xx_it.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -49,10 +50,10 @@
 /* Private variables ---------------------------------------------------------*/
 
 /* USER CODE BEGIN PV */
+extern uint8_t modeSelectFlag;
+uint8_t message[20];
 extern uint8_t duty;
-extern uint8_t state;
-uint8_t refresh_state = 0;
-uint8_t page = 0;
+extern OutputType outputType;
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -74,7 +75,7 @@ int main(void)
 {
 
   /* USER CODE BEGIN 1 */
-  uint8_t message[20];
+
   /* USER CODE END 1 */
 
   /* MCU Configuration--------------------------------------------------------*/
@@ -104,6 +105,7 @@ int main(void)
   HAL_Delay(50);
   OLED_Init();
   HAL_TIM_PWM_Start(&htim1, TIM_CHANNEL_1);
+  HAL_TIM_Base_Start_IT(&htim1);
   HAL_TIM_Base_Start_IT(&htim2);
   /* USER CODE END 2 */
 
@@ -111,6 +113,48 @@ int main(void)
   /* USER CODE BEGIN WHILE */
   while (1)
   {
+      if(modeSelectFlag == SET) {
+          OLED_NewFrame();
+          OLED_PrintString(0, 0, "选择输出类型:", &selectOutputTypeFont, OLED_COLOR_NORMAL);
+          switch(outputType) {
+              case OUTPUT_TYPE_DC:
+                  OLED_DrawImage(40, 21, &DCImgFont45x45, OLED_COLOR_NORMAL); break;
+              case OUTPUT_TYPE_SIN:
+                  OLED_DrawImage(40, 21, &sinImg, OLED_COLOR_NORMAL); break;
+              case OUTPUT_TYPE_SAWTOOTH:
+                  OLED_DrawImage(40, 21, &sawtoothImg45x45, OLED_COLOR_NORMAL); break;
+              default:
+                  OLED_PrintString(0, 13, "Error!", &font16x16, OLED_COLOR_NORMAL); break;
+          }
+          OLED_ShowFrame();
+      }
+      else {
+          switch (outputType) {
+              case OUTPUT_TYPE_DC:
+                  sprintf((char *)message, "设定值:%d%%", duty/10);
+                  OLED_NewFrame();
+                  OLED_PrintString(0, 0, "当前输出-DC", &messageDisplayFont12x12, OLED_COLOR_NORMAL);
+                  OLED_PrintString(0, 17, (char *)message, &DCoutputValueFont12x12, OLED_COLOR_NORMAL);
+                  OLED_DrawRectangle(13, 40, 101, 12, OLED_COLOR_NORMAL);
+                  OLED_DrawFilledRectangle(13, 41, duty/10, 11, OLED_COLOR_NORMAL);
+                  OLED_ShowFrame();
+                  break;
+              case OUTPUT_TYPE_SIN:
+                  OLED_NewFrame();
+                  OLED_PrintString(0, 0, "当前输出-Sin", &messageDisplayFont12x12, OLED_COLOR_NORMAL);
+                  OLED_ShowFrame();
+                  break;
+              case OUTPUT_TYPE_SAWTOOTH:
+                  OLED_NewFrame();
+                  OLED_PrintString(0, 0, "当前输出-Sawtooth", &messageDisplayFont12x12, OLED_COLOR_NORMAL);
+                  OLED_ShowFrame();
+                  break;
+              default:
+                  OLED_NewFrame();
+                  OLED_PrintString(0, 0, "Error!", &font12x12, OLED_COLOR_NORMAL);
+                  OLED_ShowFrame();
+          }
+      }
 #if 0
       if(state != 4) {
           sprintf((char *)message, "设定值:%d%%", duty);

@@ -26,10 +26,11 @@ typedef struct Font {
   const ASCIIFont *ascii; // 缺省ASCII字体 当字库中没有对应字符且需要显示ASCII字符时使用
 } Font;
 
-extern const Font shedingzhi1;
 extern const Font font16x16;
 extern const Font font12x12;
-extern const Font xuanzeshuchuleixing1;
+extern const Font selectOutputTypeFont;
+extern const Font DCoutputValueFont12x12;
+extern const Font messageDisplayFont12x12;
 
 /**
  * @brief 图片结构体
@@ -42,6 +43,8 @@ typedef struct Image {
 } Image;
 
 extern const Image bilibiliImg;
+extern const Image DCImgFont45x45;
 extern const Image sinImg;
+extern const Image sawtoothImg45x45;
 
 #endif // __FONT_H
