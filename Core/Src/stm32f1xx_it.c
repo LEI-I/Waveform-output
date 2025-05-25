@@ -37,7 +37,7 @@
 #define SEQUENCE_LENGTH 4
 #define KEY1_VALUE 1
 #define KEY2_VALUE 2
-#define OUTPUT_TYPE_COUNT 4
+#define OUTPUT_TYPE_COUNT 5
 /* USER CODE END PD */
 
 /* Private macro -------------------------------------------------------------*/
@@ -47,10 +47,10 @@
 
 /* Private variables ---------------------------------------------------------*/
 /* USER CODE BEGIN PV */
-FlagStatus modeSelectFlag = SET;
+FlagStatus modeSelectFlag = RESET;
 FlagStatus dinoStrat = RESET;
 extern FlagStatus dinoFlag;
-OutputType outputType = OUTPUT_TYPE_DC;
+OutputType outputType = OUTPUT_TYPE_LOGO;
 uint16_t dcDuty=0, sawtoothDuty=0;
 uint8_t sinFrequency = 1, sawtoothFrequency = 8;
 /* USER CODE END PV */
@@ -341,6 +341,10 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
             CheckModeSelectSequence();
             if(HAL_GPIO_ReadPin(KEY1_GPIO_Port, KEY1_Pin) == GPIO_PIN_RESET) {
                 switch (outputType) {
+                    case OUTPUT_TYPE_LOGO:
+                        outputType = OUTPUT_TYPE_DC;
+                        modeSelectFlag = SET;
+                        break;
                     case OUTPUT_TYPE_DC:
                         if(dcDuty > 10) dcDuty -= 10;
                         __HAL_TIM_SetCompare(&htim1, TIM_CHANNEL_1, dcDuty);
@@ -377,7 +381,7 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
         else {
             if(HAL_GPIO_ReadPin(KEY2_GPIO_Port, KEY2_Pin) == GPIO_PIN_RESET) {
                 outputType++;
-                outputType %= OUTPUT_TYPE_COUNT;
+                outputType %= OUTPUT_TYPE_COUNT - 1;
             }
             if(HAL_GPIO_ReadPin(KEY1_GPIO_Port, KEY1_Pin) == GPIO_PIN_RESET) {
                 modeSelectFlag = RESET;
@@ -402,40 +406,4 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
         }
     }
 }
-
-
-#if 0
-void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
-{
-    if(htim == (&htim2)) {
-        if(HAL_GPIO_ReadPin(KEY1_GPIO_Port, KEY1_Pin) == GPIO_PIN_RESET && dcDuty < 100) {
-            dcDuty++;
-            if(state == 0) {
-                state = 1;
-            }
-            if(state == 2) {
-                state = 3;
-            } else {
-                if(state == 3) {
-                    state = 0;
-                }
-            }
-        }
-        if(HAL_GPIO_ReadPin(KEY2_GPIO_Port, KEY2_Pin) == GPIO_PIN_RESET && dcDuty > 0) {
-            dcDuty--;
-            if(state == 1) {
-                state = 2;
-            } else {
-                if(state == 2) {
-                    state = 0;
-                }
-            }
-            if(state == 3) {
-                state = 4;
-            }
-        }
-                __HAL_TIM_SetCompare(&htim1, TIM_CHANNEL_1, dcDuty);
-    }
-}
-#endif
 /* USER CODE END 1 */

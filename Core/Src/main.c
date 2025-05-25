@@ -135,6 +135,11 @@ int main(void)
       }
       else {
           switch (outputType) {
+              case OUTPUT_TYPE_LOGO:
+                  OLED_NewFrame();
+                  OLED_DrawImage(10, 14, &logoImg50x50, OLED_COLOR_NORMAL);
+                  OLED_ShowFrame();
+                  HAL_Delay(100);
               case OUTPUT_TYPE_DC:
                   sprintf((char *)message, "设定值:%d%%", duty/10);
                   OLED_NewFrame();

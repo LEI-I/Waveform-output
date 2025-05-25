@@ -33,6 +33,9 @@
   <component name="ChangeListManager">
     <list default="true" id="4f636909-9460-42ab-990a-66dfdc7fe605" name="更改" comment="基本功能均已添加，待烧录验证后添加logo">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Core/Inc/font.h" beforeDir="false" afterPath="$PROJECT_DIR$/Core/Inc/font.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Core/Inc/stm32f1xx_it.h" beforeDir="false" afterPath="$PROJECT_DIR$/Core/Inc/stm32f1xx_it.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Core/Src/font.c" beforeDir="false" afterPath="$PROJECT_DIR$/Core/Src/font.c" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Core/Src/main.c" beforeDir="false" afterPath="$PROJECT_DIR$/Core/Src/main.c" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Core/Src/stm32f1xx_it.c" beforeDir="false" afterPath="$PROJECT_DIR$/Core/Src/stm32f1xx_it.c" afterDir="false" />
     </list>
@@ -144,7 +147,8 @@
       <workItem from="1747996255849" duration="9911000" />
       <workItem from="1748060708467" duration="4376000" />
       <workItem from="1748065145348" duration="283000" />
-      <workItem from="1748095044320" duration="3887000" />
+      <workItem from="1748095044320" duration="3908000" />
+      <workItem from="1748145204406" duration="1209000" />
     </task>
     <task id="LOCAL-00001" summary="初始版本">
       <option name="closed" value="true" />
@@ -186,7 +190,15 @@
       <option name="project" value="LOCAL" />
       <updated>1748098877033</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="基本功能均已添加，待烧录验证后添加logo">
+      <option name="closed" value="true" />
+      <created>1748098973941</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1748098973941</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">

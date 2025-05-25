@@ -36,7 +36,8 @@ typedef enum {
     OUTPUT_TYPE_DC = 0,
     OUTPUT_TYPE_SIN,
     OUTPUT_TYPE_SAWTOOTH,
-    OUTPUT_TYPE_DINO
+    OUTPUT_TYPE_DINO,
+    OUTPUT_TYPE_LOGO
 } OutputType;
 /* USER CODE END ET */
 
