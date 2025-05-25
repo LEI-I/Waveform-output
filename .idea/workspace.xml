@@ -31,9 +31,28 @@
     </configurations>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="4f636909-9460-42ab-990a-66dfdc7fe605" name="更改" comment="增加了logo，功能待验证">
+    <list default="true" id="4f636909-9460-42ab-990a-66dfdc7fe605" name="更改" comment="完善了README文档">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Core/Src/Dino.c" beforeDir="false" afterPath="$PROJECT_DIR$/Core/Src/Dino.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Core/Src/main.c" beforeDir="false" afterPath="$PROJECT_DIR$/Core/Src/main.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Core/Src/stm32f1xx_it.c" beforeDir="false" afterPath="$PROJECT_DIR$/Core/Src/stm32f1xx_it.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Core/Src/tim.c" beforeDir="false" afterPath="$PROJECT_DIR$/Core/Src/tim.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/PWMToControlVoltageV4.ioc" beforeDir="false" afterPath="$PROJECT_DIR$/PWMToControlVoltageV4.ioc" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/.ninja_deps" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/.ninja_deps" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/.ninja_log" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/.ninja_log" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/3.31.6/CMakeDetermineCompilerABI_C.bin" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/3.31.6/CMakeDetermineCompilerABI_C.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/3.31.6/CMakeDetermineCompilerABI_CXX.bin" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/3.31.6/CMakeDetermineCompilerABI_CXX.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/CMakeConfigureLog.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/CMakeConfigureLog.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/PWMToControlVoltageV4.elf.dir/Core/Src/Dino.c.obj" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/PWMToControlVoltageV4.elf.dir/Core/Src/Dino.c.obj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/PWMToControlVoltageV4.elf.dir/Core/Src/font.c.obj" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/PWMToControlVoltageV4.elf.dir/Core/Src/font.c.obj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/PWMToControlVoltageV4.elf.dir/Core/Src/main.c.obj" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/PWMToControlVoltageV4.elf.dir/Core/Src/main.c.obj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/PWMToControlVoltageV4.elf.dir/Core/Src/stm32f1xx_it.c.obj" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/PWMToControlVoltageV4.elf.dir/Core/Src/stm32f1xx_it.c.obj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/PWMToControlVoltageV4.elf.dir/Core/Src/tim.c.obj" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/PWMToControlVoltageV4.elf.dir/Core/Src/tim.c.obj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/clion-Debug-log.txt" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/clion-Debug-log.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/PWMToControlVoltageV4.bin" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/PWMToControlVoltageV4.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/PWMToControlVoltageV4.elf" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/PWMToControlVoltageV4.elf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/PWMToControlVoltageV4.hex" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/PWMToControlVoltageV4.hex" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/PWMToControlVoltageV4.map" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/PWMToControlVoltageV4.map" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -85,6 +104,11 @@
   }
 }</component>
   <component name="RunManager" selected="OpenOCD 下载并运行.Openocd_Debug">
+    <configuration default="true" type="CLionExternalRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true">
+      <method v="2">
+        <option name="CLION.EXTERNAL.BUILD" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="CMSISDSP" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="PWMToControlVoltageV4" TARGET_NAME="CMSISDSP" CONFIG_NAME="Debug">
       <method v="2">
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
@@ -145,7 +169,8 @@
       <workItem from="1748065145348" duration="283000" />
       <workItem from="1748095044320" duration="3908000" />
       <workItem from="1748145204406" duration="1342000" />
-      <workItem from="1748148957283" duration="1000" />
+      <workItem from="1748148957283" duration="92000" />
+      <workItem from="1748170319264" duration="3478000" />
     </task>
     <task id="LOCAL-00001" summary="初始版本">
       <option name="closed" value="true" />
@@ -203,7 +228,15 @@
       <option name="project" value="LOCAL" />
       <updated>1748146450399</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="完善了README文档">
+      <option name="closed" value="true" />
+      <created>1748149034591</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1748149034591</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -234,12 +267,12 @@
     <MESSAGE value="新增正弦波频率可调功能，添加了宏定义，提高了检测按键中断延迟到160ms" />
     <MESSAGE value="基本功能均已添加，待烧录验证后添加logo" />
     <MESSAGE value="增加了logo，功能待验证" />
-    <option name="LAST_COMMIT_MESSAGE" value="增加了logo，功能待验证" />
+    <MESSAGE value="完善了README文档" />
+    <option name="LAST_COMMIT_MESSAGE" value="完善了README文档" />
   </component>
   <component name="XDebuggerManager">
     <watches-manager>
       <configuration name="com.jetbrains.cidr.embedded.openocd.conf.type">
-        <watch expression="duty" language="ObjectiveC" />
         <watch expression="outputType" language="ObjectiveC" />
       </configuration>
     </watches-manager>

@@ -52,7 +52,7 @@
 /* USER CODE BEGIN PV */
 extern uint8_t modeSelectFlag;
 uint8_t message[20];
-extern uint8_t duty;
+extern uint16_t dcDuty, sawtoothDuty;
 extern OutputType outputType;
 extern uint8_t sinFrequency, sawtoothFrequency;
 FlagStatus dinoFlag = RESET;
@@ -137,22 +137,24 @@ int main(void)
           switch (outputType) {
               case OUTPUT_TYPE_LOGO:
                   OLED_NewFrame();
-                  OLED_DrawImage(10, 14, &logoImg50x50, OLED_COLOR_NORMAL);
+                  OLED_DrawImage(35, 15, &logoImg50x50, OLED_COLOR_NORMAL);
                   OLED_ShowFrame();
                   HAL_Delay(100);
+                  break;
               case OUTPUT_TYPE_DC:
-                  sprintf((char *)message, "设定值:%d%%", duty/10);
+                  sprintf((char *)message, "设定值:%d%%", dcDuty/10);
                   OLED_NewFrame();
                   OLED_PrintString(0, 0, "当前输出-DC", &messageDisplayFont12x12, OLED_COLOR_NORMAL);
                   OLED_PrintString(0, 17, (char *)message, &DCoutputValueFont12x12, OLED_COLOR_NORMAL);
                   OLED_DrawRectangle(13, 40, 101, 12, OLED_COLOR_NORMAL);
-                  OLED_DrawFilledRectangle(13, 41, duty/10, 11, OLED_COLOR_NORMAL);
+                  OLED_DrawFilledRectangle(13, 41, dcDuty/10, 11, OLED_COLOR_NORMAL);
                   OLED_ShowFrame();
                   break;
               case OUTPUT_TYPE_SIN:
                   sprintf((char *)message, "设定值:%dHz", sinFrequency);
                   OLED_NewFrame();
                   OLED_PrintString(0, 0, "当前输出-Sin", &messageDisplayFont12x12, OLED_COLOR_NORMAL);
+                  OLED_PrintString(0, 17, (char *)message, &DCoutputValueFont12x12, OLED_COLOR_NORMAL);
                   OLED_DrawRectangle(13, 40, 101, 12, OLED_COLOR_NORMAL);
                   OLED_DrawFilledRectangle(13, 41, sinFrequency, 11, OLED_COLOR_NORMAL);
                   OLED_ShowFrame();
@@ -161,6 +163,7 @@ int main(void)
                   sprintf((char *)message, "设定值:%dHz", sawtoothFrequency);
                   OLED_NewFrame();
                   OLED_PrintString(0, 0, "当前输出-Sawtooth", &messageDisplayFont12x12, OLED_COLOR_NORMAL);
+                  OLED_PrintString(0, 17, (char *)message, &DCoutputValueFont12x12, OLED_COLOR_NORMAL);
                   OLED_DrawRectangle(13, 40, 101, 12, OLED_COLOR_NORMAL);
                   OLED_DrawFilledRectangle(13, 41, sawtoothFrequency, 11, OLED_COLOR_NORMAL);
                   OLED_ShowFrame();
@@ -183,29 +186,6 @@ int main(void)
                   break;
           }
       }
-#if 0
-      if(state != 4) {
-          sprintf((char *)message, "设定值:%d%%", duty);
-          OLED_NewFrame();
-          OLED_PrintString(0, 0, (char *)message, &shedingzhi1, OLED_COLOR_NORMAL);
-          OLED_DrawRectangle(13, 25, 101, 12, OLED_COLOR_NORMAL);
-          OLED_DrawFilledRectangle(13, 26, duty, 11, OLED_COLOR_NORMAL);
-          OLED_ShowFrame();
-          HAL_Delay(40);
-      } else {
-          if(refresh_state == 0) {
-              introMessage();
-              refresh_state = 1;
-              HAL_TIM_PWM_Stop(&htim1, TIM_CHANNEL_1);
-              HAL_TIM_Base_Stop_IT(&htim2);
-          }
-          if (HAL_GPIO_ReadPin(KEY1_GPIO_Port, KEY1_Pin) == GPIO_PIN_RESET || HAL_GPIO_ReadPin(KEY2_GPIO_Port, KEY2_Pin) == GPIO_PIN_RESET) {
-              showLine();
-              play();
-              HAL_Delay(100);
-          }
-      }
-#endif
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */

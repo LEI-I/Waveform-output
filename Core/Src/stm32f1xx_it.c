@@ -48,11 +48,11 @@
 /* Private variables ---------------------------------------------------------*/
 /* USER CODE BEGIN PV */
 FlagStatus modeSelectFlag = RESET;
-FlagStatus dinoStrat = RESET;
+FlagStatus dinoStart = RESET;
 extern FlagStatus dinoFlag;
 OutputType outputType = OUTPUT_TYPE_LOGO;
 uint16_t dcDuty=0, sawtoothDuty=0;
-uint8_t sinFrequency = 1, sawtoothFrequency = 8;
+uint8_t sinFrequency = 8, sawtoothFrequency = 8;
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -350,13 +350,13 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
                         __HAL_TIM_SetCompare(&htim1, TIM_CHANNEL_1, dcDuty);
                         break;
                     case OUTPUT_TYPE_SIN:
-                        if(sinFrequency > 1) sinFrequency--;
+                        if(sinFrequency > 8) sinFrequency -= 8;
                         break;
                     case OUTPUT_TYPE_SAWTOOTH:
                         if(sawtoothFrequency > 8) sawtoothFrequency -= 8;
                         break;
                     case OUTPUT_TYPE_DINO:
-                        dinoStrat = SET;
+                        dinoStart = SET;
                     default:
                         break;
                 }
@@ -368,7 +368,7 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
                         __HAL_TIM_SetCompare(&htim1, TIM_CHANNEL_1, dcDuty);
                         break;
                     case OUTPUT_TYPE_SIN:
-                        if(sinFrequency < 100) sinFrequency++;
+                        if(sinFrequency < 96) sinFrequency += 8;
                         break;
                     case OUTPUT_TYPE_SAWTOOTH:
                         if(sawtoothFrequency < 96) sawtoothFrequency += 8;

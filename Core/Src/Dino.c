@@ -53,6 +53,7 @@ const uint8_t time_distance[38] = {0, 4, 7, 11, 14, 17, 20, 23, 25, 28, 30, 31, 
 /* Higheset Score */
 int highest_score = 0;
 
+extern FlagStatus dinoStart;
 /**
  * @brief Draw the introduction screen
  * @note Referenced from github@harshmittal2210/dino_game.ino
@@ -161,6 +162,7 @@ void play() {
         displayScore(score, 1);
       }
       OLED_ShowFrame();
+      dinoStart = RESET;
       break;
     }
 
@@ -179,6 +181,7 @@ void play() {
           displayScore(score, 1);
         }
         OLED_ShowFrame();
+        dinoStart = RESET;
         break;
       }
     }
