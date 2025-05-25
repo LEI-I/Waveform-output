@@ -31,13 +31,9 @@
     </configurations>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="4f636909-9460-42ab-990a-66dfdc7fe605" name="更改" comment="基本功能均已添加，待烧录验证后添加logo">
+    <list default="true" id="4f636909-9460-42ab-990a-66dfdc7fe605" name="更改" comment="增加了logo，功能待验证">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Core/Inc/font.h" beforeDir="false" afterPath="$PROJECT_DIR$/Core/Inc/font.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Core/Inc/stm32f1xx_it.h" beforeDir="false" afterPath="$PROJECT_DIR$/Core/Inc/stm32f1xx_it.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Core/Src/font.c" beforeDir="false" afterPath="$PROJECT_DIR$/Core/Src/font.c" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Core/Src/main.c" beforeDir="false" afterPath="$PROJECT_DIR$/Core/Src/main.c" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Core/Src/stm32f1xx_it.c" beforeDir="false" afterPath="$PROJECT_DIR$/Core/Src/stm32f1xx_it.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -148,7 +144,8 @@
       <workItem from="1748060708467" duration="4376000" />
       <workItem from="1748065145348" duration="283000" />
       <workItem from="1748095044320" duration="3908000" />
-      <workItem from="1748145204406" duration="1209000" />
+      <workItem from="1748145204406" duration="1342000" />
+      <workItem from="1748148957283" duration="1000" />
     </task>
     <task id="LOCAL-00001" summary="初始版本">
       <option name="closed" value="true" />
@@ -198,7 +195,15 @@
       <option name="project" value="LOCAL" />
       <updated>1748098973941</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="增加了logo，功能待验证">
+      <option name="closed" value="true" />
+      <created>1748146450399</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1748146450399</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -228,7 +233,8 @@
     <MESSAGE value="Merge unrelated histories" />
     <MESSAGE value="新增正弦波频率可调功能，添加了宏定义，提高了检测按键中断延迟到160ms" />
     <MESSAGE value="基本功能均已添加，待烧录验证后添加logo" />
-    <option name="LAST_COMMIT_MESSAGE" value="基本功能均已添加，待烧录验证后添加logo" />
+    <MESSAGE value="增加了logo，功能待验证" />
+    <option name="LAST_COMMIT_MESSAGE" value="增加了logo，功能待验证" />
   </component>
   <component name="XDebuggerManager">
     <watches-manager>
